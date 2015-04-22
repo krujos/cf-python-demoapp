@@ -6,13 +6,19 @@ import json
 import os
 import sys
 
-#if 'VCAP_SERVICES' in os.environ: 
-#    vcap_services = json.loads(os.environ['VCAP_SERVICES'])
-#    user = vcap_services['lifecycle-sb']['credentials']['username']
-#     password = vcap_services['lifecycle-sb']['credentials']['password']
-#     uri = vcap_services['lifecycle-sb']['credentials']['uri']
-# else:
-#     print ("VCAP_SERVICES not found!!!", file=sys.stderr)
+lifecycle = None
+creds = None
+if 'VCAP_SERVICES' in os.environ: 
+    vcap_services = json.loads(os.environ['VCAP_SERVICES'])
+    lifecycle = vcap_services.get('lifecycle-sb') 
+    if lifecycle is not None:
+        creds = lifecycle.get('credentials') 
+    if creds is not None:
+        user = creds.get('username')
+        password = creds.get('password') 
+        uri = cres.get('uri') 
+else:
+    print ("VCAP_SERVICES not found!!!", file=sys.stderr)
 
 port = 8003
 if 'PORT' in os.environ: 
