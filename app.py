@@ -12,11 +12,11 @@ if 'VCAP_SERVICES' in os.environ:
     vcap_services = json.loads(os.environ['VCAP_SERVICES'])
     lifecycle = vcap_services.get('lifecycle-sb') 
     if lifecycle is not None:
-        creds = lifecycle.get('credentials') 
+        creds = lifecycle[0].get('credentials') 
     if creds is not None:
         user = creds.get('username')
         password = creds.get('password') 
-        uri = cres.get('uri') 
+        uri = creds.get('uri') 
 else:
     print ("VCAP_SERVICES not found!!!", file=sys.stderr)
 
@@ -30,7 +30,7 @@ app = Flask(__name__)
 
 @app.get('/')
 def get_root(): 
-    return "Hello World!"
+    return "Hello! Your db uri is %s" % uri
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=port)
