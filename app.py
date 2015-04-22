@@ -33,6 +33,10 @@ app = Flask(__name__)
 
 @app.get('/')
 def get_root(): 
+    return "Hello!"
+
+@app.get('/info')
+def get_info(): 
     url = urlparse(uri.split("jdbc:")[-1])
     result = "-1"
     try: 
@@ -48,4 +52,4 @@ def get_root():
     return "Hello! Your db uri is %s, it has been touched %s times." % (url.geturl(), result)
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
