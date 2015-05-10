@@ -35,14 +35,14 @@ app = Flask(__name__)
 def get_root(): 
     url = urlparse(uri)
     results = []
-    output = "<p>Hello! Your db uri is <strong>%s</strong></p> " % url.geturl()
+    output = "<p>Your db uri is <strong>%s</strong></p> " % url.geturl()
     try: 
         db = url.path.replace('/','')
         host = url.netloc.split(':')[0]
         conn = psycopg2.connect(database=db, user=user, password=password, host=host, port=url.port)
         cur = conn.cursor()
         cur.execute('SELECT count(*) FROM base;')
-        output += "<p>Table has %d rows</p>" % cur.fetchone()[0]
+        output += "<p>Table has <strong>%d</strong> rows</p>" % cur.fetchone()[0]
         cur.execute('SELECT * FROM base ORDER BY first_name DESC LIMIT 10;')
         output += "<table><thead><tr><td>First</td><td>Last</td><td>CC</td></thead>"
         for i in range(9):
