@@ -3,7 +3,7 @@ export VCAP_SERVICES='{
    {
     "credentials": {
      "password": "postgres",
-     "uri": "jdbc:postgresql://52.0.106.208:5432/testdb",
+     "uri": "postgresql://52.0.106.208:5432/testdb",
      "username": "postgres"
     },
     "label": "lifecycle-sb",

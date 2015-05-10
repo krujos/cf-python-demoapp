@@ -33,19 +33,27 @@ app = Flask(__name__)
 
 @app.get('/')
 def get_root(): 
-    url = urlparse(uri.split("jdbc:")[-1])
-    result = "-1"
+    url = urlparse(uri)
+    results = []
+    output = "<p>Hello! Your db uri is <strong>%s</strong></p> " % url.geturl()
     try: 
         db = url.path.replace('/','')
         host = url.netloc.split(':')[0]
         conn = psycopg2.connect(database=db, user=user, password=password, host=host, port=url.port)
         cur = conn.cursor()
-        cur.execute('SELECT COUNT(*) FROM touched;')
-        result = cur.fetchone()[0]
+        cur.execute('SELECT * FROM base LIMIT 10;')
+        output += "<table><thead><tr><td>First</td><td>Last</td><td>CC</td></thead>"
+        for i in range(9):
+            result = cur.fetchone()
+            output += "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (result[0], result[1], result[2])
+        output += "</table>"
+
     except:
         print("ERR: Failed!", file=sys.stderr)
+    
+    return output;
 
-    return "Hello! Your db uri is %s, it has been touched %s times." % (url.geturl(), result)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=port)
