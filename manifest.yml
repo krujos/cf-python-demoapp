@@ -2,6 +2,7 @@
 applications:
 - name: demo
   memory: 128m
+  random-route: true
   services:
    - postgres
 

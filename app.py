@@ -41,7 +41,7 @@ def get_root():
         host = url.netloc.split(':')[0]
         conn = psycopg2.connect(database=db, user=user, password=password, host=host, port=url.port)
         cur = conn.cursor()
-        cur.execute('SELECT * FROM base LIMIT 10;')
+        cur.execute('SELECT * FROM base ORDER BY first_name DESC LIMIT 10;')
         output += "<table><thead><tr><td>First</td><td>Last</td><td>CC</td></thead>"
         for i in range(9):
             result = cur.fetchone()
