@@ -19,6 +19,8 @@ for x in range(int(sys.argv[2])):
     first = random.choice(WORDS)
     last = random.choice(WORDS)
     cur.execute("INSERT INTO base (first_name, last_name, cc) VALUES (%s, %s, %s)", (first, last, str(cc)))
+    if ( 0 == x % 100 ):
+        conn.commit()
     
 conn.commit()
 cur.close()
