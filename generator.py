@@ -3,16 +3,16 @@ import random
 import sys
 import psycopg2
 
-#Run with argv[1] == EC2 IP and argv[2] == # of records to insert.
+#Run with argv[1] == EC2 IP and argv[2] == # of records to insert. argv[3] if present and equal to 'drop' will recreate data
 
 word_file = "/usr/share/dict/words"
 WORDS = open(word_file).read().splitlines()
 conn = psycopg2.connect(database="testdb", user="postgres", password="postgres", host=sys.argv[1], port=5432)
 cur = conn.cursor()
 
-cur.execute('DROP TABLE base;')
-
-cur.execute('CREATE TABLE base (  first_name character varying(32) NOT NULL,  last_name character varying(32) NOT NULL,  cc character varying(16) NOT NULL );')
+if len(sys.argv) > 3 and 'drop' == sys.argv[3]:
+    cur.execute('DROP TABLE base;')
+    cur.execute('CREATE TABLE base (  first_name character varying(32) NOT NULL,  last_name character varying(32) NOT NULL,  cc character varying(16) NOT NULL );')
 
 for x in range(int(sys.argv[2])):
     cc = random.randint(1000000000000000,9999999999999999);
